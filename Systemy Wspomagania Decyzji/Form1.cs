@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection.Emit;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ namespace Systemy_Wspomagania_Decyzji
         Panel tools;
         Panel table;
         Object[][] data;
+        DataGridView grid;
         public SWD()
         {
             InitializeComponent();
@@ -53,6 +55,7 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(loadExcelData);
 
             Button textToDigits = new Button();
+            textToDigits.Click += textDigits;
             textToDigits.BackColor = Color.White;
             textToDigits.Text = "Text To Digits";
             textToDigits.SetBounds(Convert.ToInt32(tools.Width * 0.185), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
@@ -117,11 +120,11 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(save);
         }
 
-     
+
 
         private void intiTable()
         {
-            DataGridView grid = new DataGridView();
+            grid = new DataGridView();
             grid.SetBounds(0, 0, table.Width, Convert.ToInt32(table.Height * 0.9));
             grid.ColumnCount = 1;
             grid.Columns[0].Name = "Empty";
@@ -139,10 +142,11 @@ namespace Systemy_Wspomagania_Decyzji
         private void setTable()
         {
             table.Controls.Clear();
-            DataGridView grid = new DataGridView();
+            grid = new DataGridView();
             grid.SetBounds(0, 0, table.Width, Convert.ToInt32(table.Height * 0.9));
             grid.ColumnCount = data[0].Length;
-            for (int i = 0; i < data[0].Length;i++) {
+            for (int i = 0; i < data[0].Length; i++)
+            {
                 grid.Columns[i].Name = Tools.columnHeaders[i];
             }
             foreach (Object[] o in data)
@@ -166,9 +170,33 @@ namespace Systemy_Wspomagania_Decyzji
         }
         private void loadExcel(object sender, EventArgs e)
         {
-            data=Tools.loadFromExcel();
+            data = Tools.loadFromExcel();
             setTable();
         }
+        private void textDigits(object sender, EventArgs e)
+        {
+            List<Object> obj = new List<object>();
+            int colNr = grid.CurrentCell.ColumnIndex;
+            grid.Columns.Add("a1", "Digitts of " + grid.Columns[colNr].HeaderText);
+            for (int i = 0; i < grid.Rows.Count - 1; i++)
+            {
+                int j;
+                bool exist = false;
+                for (j = 0; j < obj.Count; j++)
+                {
+                    if (grid[colNr, i].Value.ToString() == obj[j].ToString())
+                    {
+                        exist = true;
+                        break;
+
+                    }
+                }
+                if (!exist) { obj.Add(grid[colNr, i].Value); }
+                grid[grid.ColumnCount - 1, i].Value = j + 1;
+            }
+
+        }
+
 
     }
 }
