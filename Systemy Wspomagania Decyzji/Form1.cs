@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Drawing;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace Systemy_Wspomagania_Decyzji
@@ -33,66 +34,85 @@ namespace Systemy_Wspomagania_Decyzji
 
         private void initTools()
         {
+            Font font = new Font("myFont", 14, FontStyle.Italic);
+
             Button loadTextData = new Button();
             loadTextData.BackColor= Color.White;
             loadTextData.Text = "Load Text Data";
-            loadTextData.SetBounds(Convert.ToInt32(tools.Width * 0.02), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
+            loadTextData.SetBounds(Convert.ToInt32(tools.Width * 0.005), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            loadTextData.Font= font;
             tools.Controls.Add(loadTextData);
 
             Button loadExcelData = new Button();
             loadExcelData.BackColor= Color.White;
             loadExcelData.Text = "Load Excel Data";
-            loadExcelData.SetBounds(Convert.ToInt32(tools.Width * 0.115), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
+            loadExcelData.SetBounds(Convert.ToInt32(tools.Width * 0.095), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            loadExcelData.Font= font;
             tools.Controls.Add(loadExcelData);
 
-            Button TextToDigits = new Button();
-            TextToDigits.BackColor= Color.White;
-            TextToDigits.Text = "Text To Digits";
-            TextToDigits.SetBounds(Convert.ToInt32(tools.Width * 0.21), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(TextToDigits);
+            Button textToDigits = new Button();
+            textToDigits.BackColor= Color.White;
+            textToDigits.Text = "Text To Digits";
+            textToDigits.SetBounds(Convert.ToInt32(tools.Width * 0.185), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            textToDigits.Font= font;
+            tools.Controls.Add(textToDigits);
 
-            Button Discretize = new Button();
-            Discretize.BackColor = Color.White;
-            Discretize.Text = "Discretize";
-            Discretize.SetBounds(Convert.ToInt32(tools.Width * 0.305), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(Discretize);
+            Button discretize = new Button();
+            discretize.BackColor = Color.White;
+            discretize.Text = "Discretize";
+            discretize.SetBounds(Convert.ToInt32(tools.Width * 0.275), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            discretize.Font= font;
+            tools.Controls.Add(discretize);
 
 
-            Button Standardization = new Button();
-            Standardization.BackColor = Color.White;
-            Standardization.Text = "Standardization";
-            Standardization.SetBounds(Convert.ToInt32(tools.Width * 0.4), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(Standardization);
+            Button standardization = new Button();
+            standardization.BackColor = Color.White;
+            standardization.Text = "Standardization";
+            standardization.SetBounds(Convert.ToInt32(tools.Width * 0.365), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            standardization.Font= font;
+            tools.Controls.Add(standardization);
 
-            Button ChangeRange = new Button();
-            ChangeRange.BackColor = Color.White;
-            ChangeRange.Text = "Change Range";
-            ChangeRange.SetBounds(Convert.ToInt32(tools.Width * 0.495), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(ChangeRange);
+            Button changeRange = new Button();
+            changeRange.BackColor = Color.White;
+            changeRange.Text = "Change Range";
+            changeRange.SetBounds(Convert.ToInt32(tools.Width * 0.455), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            changeRange.Font= font;
+            tools.Controls.Add(changeRange);
 
-            Button ShowFiltered = new Button();
-            ShowFiltered.BackColor = Color.White;
-            ShowFiltered.Text = "Show Filtered";
-            ShowFiltered.SetBounds(Convert.ToInt32(tools.Width * 0.59), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(ShowFiltered);
+            Button showFiltered = new Button();
+            showFiltered.BackColor = Color.White;
+            showFiltered.Text = "Show Filtered";
+            showFiltered.SetBounds(Convert.ToInt32(tools.Width * 0.545), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            showFiltered.Font= font;
+            tools.Controls.Add(showFiltered);
 
-            Button Diagram2D = new Button();
-            Diagram2D.BackColor = Color.White;
-            Diagram2D.Text = "Show 2D Diagram";
-            Diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.685), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(Diagram2D);
+            Button diagram2D = new Button();
+            diagram2D.BackColor = Color.White;
+            diagram2D.Text = "Show 2D Diagram";
+            diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.635), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            diagram2D.Font= font;
+            tools.Controls.Add(diagram2D);
 
-            Button Diagram3D = new Button();
-            Diagram3D.BackColor = Color.White;
-            Diagram3D.Text = "Show 3D Diagram";
-            Diagram3D.SetBounds(Convert.ToInt32(tools.Width * 0.78), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(Diagram3D);
+            Button diagram3D = new Button();
+            diagram3D.BackColor = Color.White;
+            diagram3D.Text = "Show 3D Diagram";
+            diagram3D.SetBounds(Convert.ToInt32(tools.Width * 0.725), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            diagram3D.Font= font;
+            tools.Controls.Add(diagram3D);
 
-            Button Histogram = new Button();
-            Histogram.BackColor = Color.White;
-            Histogram.Text = "Show Histogram";
-            Histogram.SetBounds(Convert.ToInt32(tools.Width * 0.875), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.9));
-            tools.Controls.Add(Histogram);
+            Button histogram = new Button();
+            histogram.BackColor = Color.White;
+            histogram.Text = "Show Histogram";
+            histogram.SetBounds(Convert.ToInt32(tools.Width * 0.815), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            histogram.Font= font;
+            tools.Controls.Add(histogram);
+
+            Button save = new Button();
+            save.BackColor = Color.White;
+            save.Text = "Save";
+            save.SetBounds(Convert.ToInt32(tools.Width * 0.905), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            save.Font= font;
+            tools.Controls.Add(save);
         }
         private void intiTable()
         {
