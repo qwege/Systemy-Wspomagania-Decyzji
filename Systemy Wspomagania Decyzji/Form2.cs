@@ -12,7 +12,9 @@ namespace Systemy_Wspomagania_Decyzji
 {
     public partial class Form2 : Form
     {
-         public TextBox numberOfDyscretize = new TextBox();
+        public TextBox numberOfDyscretize;
+        public TextBox changeRangemin;
+        public TextBox changeRangemax;
         public Form2()
         {
             InitializeComponent();

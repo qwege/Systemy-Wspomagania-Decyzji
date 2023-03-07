@@ -80,6 +80,7 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(standardization);
 
             Button changeRange = new Button();
+            changeRange.Click += changerange;
             changeRange.BackColor = Color.White;
             changeRange.Text = "Change Range";
             changeRange.SetBounds(Convert.ToInt32(tools.Width * 0.455), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
@@ -281,7 +282,7 @@ namespace Systemy_Wspomagania_Decyzji
 
             int colNr = grid.CurrentCell.ColumnIndex;
             double a;
-            bool succes = double.TryParse(grid[colNr, 0].Value.ToString(),out a);
+            bool succes = double.TryParse(grid[colNr, 0].Value.ToString(), out a);
             if (succes)
             {
                 grid.Columns.Add("a1", "Standarization of " + grid.Columns[colNr].HeaderText);
@@ -295,7 +296,7 @@ namespace Systemy_Wspomagania_Decyzji
 
                 for (int i = 0; i < grid.Rows.Count - 1; i++)
                 {
-                    grid[grid.ColumnCount - 1, i].Value = (double)(Convert.ToDouble(grid[colNr,i].Value)-aryt)/odch;
+                    grid[grid.ColumnCount - 1, i].Value = (double)(Convert.ToDouble(grid[colNr, i].Value) - aryt) / odch;
                 }
 
             }
@@ -305,9 +306,62 @@ namespace Systemy_Wspomagania_Decyzji
             }
 
         }
+        private void changerange(object sender, EventArgs e)
+        {
+            int colNr = grid.CurrentCell.ColumnIndex;
+            Form2 f2 = new Form2();
+            double s;
 
+            if (double.TryParse(grid[colNr, 0].Value.ToString(), out s))
+            {
+                f2.Width = 500;
+                f2.Height = 300;
+                System.Windows.Forms.Label minLabel = new System.Windows.Forms.Label();
+                minLabel.Text = "MIN";
+                minLabel.SetBounds(100, 70, 50, 30);
+                f2.Controls.Add(minLabel);
+                f2.changeRangemin = new TextBox();
+                f2.changeRangemin.KeyPress += onlyNumbersListener;
+                f2.changeRangemin.SetBounds(100, 100, 100, 60);
+                f2.Controls.Add(f2.changeRangemin);
+                System.Windows.Forms.Label maxLabel = new System.Windows.Forms.Label();
+                maxLabel.Text = "MAX";
+                maxLabel.SetBounds(250, 70, 50, 30);
+                f2.Controls.Add(maxLabel);
+                f2.changeRangemax = new TextBox();
+                f2.changeRangemax.KeyPress += onlyNumbersListener;
+                f2.changeRangemax.SetBounds(250, 100, 100, 60);
+                f2.Controls.Add(f2.changeRangemax);
+                Button close = new Button();
+                close.Text = "Submit";
+                close.Click += changerangesubmit;
+                close.SetBounds(200, 200, 100, 50);
+                f2.Controls.Add(close);
+                f2.Show();
+            }
+            else
+            {
+                MessageBox.Show("Values from this column can`t be discretized.");
+            }
+        }
 
-
+        private void changerangesubmit(object sender, EventArgs e)
+        {
+            Form2 o = (Form2)((Button)sender).Parent;
+            double minNewRange = Convert.ToDouble(o.changeRangemin.Text);
+            double maxNewRange = Convert.ToDouble(o.changeRangemax.Text);
+            int colNr = grid.CurrentCell.ColumnIndex;
+            List<double> values = new List<double>();
+            for (int i = 0; i < grid.Rows.Count - 1; i++)
+            {
+                values.Add(Convert.ToDouble(grid[colNr, i].Value));
+            }
+            values = Tools.changeRange(values,minNewRange,maxNewRange);
+            for (int i = 0; i < grid.Rows.Count - 1; i++)
+            {
+                grid[grid.ColumnCount - 1, i].Value = values[i];
+            }
+        }
     }
 }
 

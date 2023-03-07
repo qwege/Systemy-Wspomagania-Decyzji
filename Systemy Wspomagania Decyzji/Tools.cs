@@ -165,5 +165,24 @@ namespace Systemy_Wspomagania_Decyzji
             }
             return sum/data.Count;
         }
+        public static List<double> changeRange(List<double> data,double min,double max)
+        {
+            double minCurrent=double.MaxValue, maxCurrent=double.MinValue;
+            foreach (double d in data)
+            {
+                if (d > maxCurrent) maxCurrent = d;
+                if (d < minCurrent) minCurrent = d;
+            }
+            List<double> result = new List<double>();
+            double diff = maxCurrent - minCurrent,newdiff= max-min;
+
+            foreach (double d in data)
+            {
+                result.Add((d - min) / diff * newdiff + min);
+            }
+            return result;
+            
+
+        }
     }
 }
