@@ -63,6 +63,7 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(textToDigits);
 
             Button discretize = new Button();
+            discretize.Click += dyscretizeColumn;
             discretize.BackColor = Color.White;
             discretize.Text = "Discretize";
             discretize.SetBounds(Convert.ToInt32(tools.Width * 0.275), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
@@ -196,6 +197,85 @@ namespace Systemy_Wspomagania_Decyzji
             }
 
         }
+        private void dyscretizeColumn(object sender, EventArgs e)
+        {
+            int colNr = grid.CurrentCell.ColumnIndex;
+            Form2 f2 = new Form2();
+            if (grid[colNr, 0].Value.GetType() == typeof(double) || grid[colNr, 0].Value.GetType() == typeof(int) || grid[colNr, 0].Value.GetType() == typeof(DateTime))
+            {
+                f2.Width = 500;
+                f2.Height = 300;
+                f2.numberOfDyscretize = new TextBox();
+                f2.numberOfDyscretize.KeyPress += onlyNumbersListener;
+                f2.numberOfDyscretize.SetBounds(100, 100, 300, 60);
+                f2.Controls.Add(f2.numberOfDyscretize);
+                Button close = new Button();
+                close.Text = "Submit";
+                close.Click += dyscretize;
+                close.SetBounds(200, 200, 100, 50);
+                f2.Controls.Add(close);
+                f2.Show();
+            }
+            else
+            {
+                MessageBox.Show("Values from this column can`t be discretized.");
+            }
+        }
+        private void dyscretize(object sender, EventArgs e)
+        {
+            Form2 o = (Form2)((Button)sender).Parent;
+            o.Close();
+            List<Object> obj = new List<object>();
+            int colNr = grid.CurrentCell.ColumnIndex;
+            grid.Columns.Add("a1", "Discretize of " + grid.Columns[colNr].HeaderText);
+            if (grid[colNr, 0].Value.GetType() != typeof(DateTime))
+            {
+                double min = double.MaxValue, max = double.MinValue;
+                for (int i = 0; i < grid.Rows.Count - 1; i++)
+                {
+
+                    if (Convert.ToDouble(grid[colNr, i].Value) > max)
+                    {
+                        max = Convert.ToDouble(grid[colNr, i].Value);
+
+                    }
+                    if (Convert.ToDouble(grid[colNr, i].Value) < min)
+                    {
+                        min = Convert.ToDouble(grid[colNr, i].Value);
+
+                    }
+
+                }
+                double diff = max - min;
+                int count = Convert.ToInt32(o.numberOfDyscretize.Text)-1;
+                double blockdiff = diff / count;
+                for (int i = 0; i < grid.Rows.Count - 1; i++)
+                {
+                    grid[grid.ColumnCount - 1, i].Value = (int)((Convert.ToDouble(grid[colNr, i].Value) - min)/blockdiff)+1;
+                }
+
+            }
+            else
+            {
+
+            }
+            o.Dispose();
+
+        }
+        private void onlyNumbersListener(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
 
 
     }
