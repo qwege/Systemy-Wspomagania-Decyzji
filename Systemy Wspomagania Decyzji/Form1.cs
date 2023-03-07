@@ -124,7 +124,6 @@ namespace Systemy_Wspomagania_Decyzji
         }
 
 
-
         private void intiTable()
         {
             grid = new DataGridView();
@@ -132,6 +131,7 @@ namespace Systemy_Wspomagania_Decyzji
             grid.ColumnCount = 1;
             grid.Columns[0].Name = "Empty";
             grid.Rows.Add("Empty Data");
+            grid.CellValueChanged += updateCnvert;
             grid.AutoSizeRowsMode =
             DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             grid.ColumnHeadersBorderStyle =
@@ -142,6 +142,8 @@ namespace Systemy_Wspomagania_Decyzji
             grid.ScrollBars = ScrollBars.Both;
             table.Controls.Add(grid);
         }
+
+
         private void setTable()
         {
             table.Controls.Clear();
@@ -158,6 +160,7 @@ namespace Systemy_Wspomagania_Decyzji
             }
             grid.AutoSizeRowsMode =
             DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            grid.CellValueChanged -= updateCnvert;
             grid.ColumnHeadersBorderStyle =
                 DataGridViewHeaderBorderStyle.Single;
             grid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
@@ -352,6 +355,7 @@ namespace Systemy_Wspomagania_Decyzji
             double maxNewRange = Convert.ToDouble(o.changeRangemax.Text);
             int colNr = grid.CurrentCell.ColumnIndex;
             List<double> values = new List<double>();
+            grid.Columns.Add("a1", "ChangeRange of " + grid.Columns[colNr].HeaderText);
             for (int i = 0; i < grid.Rows.Count - 1; i++)
             {
                 values.Add(Convert.ToDouble(grid[colNr, i].Value));
@@ -360,6 +364,34 @@ namespace Systemy_Wspomagania_Decyzji
             for (int i = 0; i < grid.Rows.Count - 1; i++)
             {
                 grid[grid.ColumnCount - 1, i].Value = values[i];
+            }
+            o.Close();
+            o.Dispose();
+        }
+        private void updateCnvert(object sender, DataGridViewCellEventArgs e) { 
+            for (int i=0;i<grid.Columns.Count;i++)
+            {
+                try
+                {
+                    double ignore;
+                    bool isDouble = Double.TryParse(grid[i, 0].Value.ToString(), out ignore);
+                    DateTime ignor;
+                    bool isDate = DateTime.TryParse(grid[i, 0].Value.ToString(), out ignor);
+                    if (isDouble)
+                    {
+                        for (int j = 0; j < grid.RowCount - 1; j++)
+                        {
+                            grid[i, j].Value = Double.Parse(grid[i, j].Value.ToString());
+                        }
+                    }
+                    else if (isDate)
+                    {
+                        for (int j = 0; j < grid.RowCount - 1; j++)
+                        {
+                            grid[i, j].Value = DateTime.Parse(grid[i, j].Value.ToString());
+                        }
+                    }
+                }catch(NullReferenceException ex) { }
             }
         }
     }
