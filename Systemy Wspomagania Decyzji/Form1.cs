@@ -72,8 +72,9 @@ namespace Systemy_Wspomagania_Decyzji
 
 
             Button standardization = new Button();
+            standardization.Click += sandarization;
             standardization.BackColor = Color.White;
-            standardization.Text = "Standardization";
+            standardization.Text = "Standarization";
             standardization.SetBounds(Convert.ToInt32(tools.Width * 0.365), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             standardization.Font = font;
             tools.Controls.Add(standardization);
@@ -224,7 +225,6 @@ namespace Systemy_Wspomagania_Decyzji
         private void dyscretize(object sender, EventArgs e)
         {
             Form2 o = (Form2)((Button)sender).Parent;
-            o.Close();
             List<Object> obj = new List<object>();
             int colNr = grid.CurrentCell.ColumnIndex;
             grid.Columns.Add("a1", "Discretize of " + grid.Columns[colNr].HeaderText);
@@ -247,18 +247,19 @@ namespace Systemy_Wspomagania_Decyzji
 
                 }
                 double diff = max - min;
-                int count = Convert.ToInt32(o.numberOfDyscretize.Text)-1;
+                int count = Convert.ToInt32(o.numberOfDyscretize.Text) - 1;
                 double blockdiff = diff / count;
                 for (int i = 0; i < grid.Rows.Count - 1; i++)
                 {
-                    grid[grid.ColumnCount - 1, i].Value = (int)((Convert.ToDouble(grid[colNr, i].Value) - min)/blockdiff)+1;
+                    grid[grid.ColumnCount - 1, i].Value = (int)((Convert.ToDouble(grid[colNr, i].Value) - min) / blockdiff) + 1;
                 }
 
             }
             else
             {
-
+                // add datetime
             }
+            o.Close();
             o.Dispose();
 
         }
@@ -274,6 +275,35 @@ namespace Systemy_Wspomagania_Decyzji
             {
                 e.Handled = true;
             }
+        }
+        private void sandarization(object sender, EventArgs e)
+        {
+
+            int colNr = grid.CurrentCell.ColumnIndex;
+            double a;
+            bool succes = double.TryParse(grid[colNr, 0].Value.ToString(),out a);
+            if (succes)
+            {
+                grid.Columns.Add("a1", "Standarization of " + grid.Columns[colNr].HeaderText);
+                List<double> list = new List<double>();
+                for (int i = 0; i < grid.Rows.Count - 1; i++)
+                {
+                    list.Add(Convert.ToDouble(grid[colNr, i].Value));
+                }
+                double aryt = Tools.arytmet(list);
+                double odch = Tools.standardDeviation(list);
+
+                for (int i = 0; i < grid.Rows.Count - 1; i++)
+                {
+                    grid[grid.ColumnCount - 1, i].Value = (double)(Convert.ToDouble(grid[colNr,i].Value)-aryt)/odch;
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Values from this column can`t be standarized.");
+            }
+
         }
 
 

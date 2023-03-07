@@ -144,5 +144,26 @@ namespace Systemy_Wspomagania_Decyzji
             }
             throw new ApplicationException();
         }
+        public static double standardDeviation(List<double> data) {
+            double ar = arytmet(data);
+            double sum = 0;
+            foreach (double d in data)
+            {
+                sum += (ar - d) * (ar - d);
+            }
+            sum=sum/data.Count;
+            return Math.Sqrt(sum);
+
+
+        }
+        public static double arytmet(List<double> data)
+        {
+            double sum = 0;
+            foreach ( double d in data)
+            {
+                sum += d;
+            }
+            return sum/data.Count;
+        }
     }
 }
