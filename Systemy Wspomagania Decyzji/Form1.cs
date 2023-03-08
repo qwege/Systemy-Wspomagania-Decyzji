@@ -83,13 +83,16 @@ namespace Systemy_Wspomagania_Decyzji
             changeRange.Click += changerange;
             changeRange.BackColor = Color.White;
             changeRange.Text = "Change Range";
+            changeRange.BackColor = Color.Yellow;
             changeRange.SetBounds(Convert.ToInt32(tools.Width * 0.455), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             changeRange.Font = font;
             tools.Controls.Add(changeRange);
 
             Button showFiltered = new Button();
             showFiltered.BackColor = Color.White;
-            showFiltered.Text = "Show Filtered";
+            showFiltered.Click += displayPercent;
+            showFiltered.Text = "Display Percent";
+            showFiltered.BackColor = Color.Orange;
             showFiltered.SetBounds(Convert.ToInt32(tools.Width * 0.545), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             showFiltered.Font = font;
             tools.Controls.Add(showFiltered);
@@ -97,6 +100,7 @@ namespace Systemy_Wspomagania_Decyzji
             Button diagram2D = new Button();
             diagram2D.BackColor = Color.White;
             diagram2D.Text = "Show 2D Diagram";
+            diagram2D.BackColor = Color.Red;
             diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.635), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             diagram2D.Font = font;
             tools.Controls.Add(diagram2D);
@@ -104,6 +108,7 @@ namespace Systemy_Wspomagania_Decyzji
             Button diagram3D = new Button();
             diagram3D.BackColor = Color.White;
             diagram3D.Text = "Show 3D Diagram";
+            diagram3D.BackColor=Color.Red;
             diagram3D.SetBounds(Convert.ToInt32(tools.Width * 0.725), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             diagram3D.Font = font;
             tools.Controls.Add(diagram3D);
@@ -111,12 +116,14 @@ namespace Systemy_Wspomagania_Decyzji
             Button histogram = new Button();
             histogram.BackColor = Color.White;
             histogram.Text = "Show Histogram";
+            histogram.BackColor = Color.Red;
             histogram.SetBounds(Convert.ToInt32(tools.Width * 0.815), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             histogram.Font = font;
             tools.Controls.Add(histogram);
 
             Button save = new Button();
             save.BackColor = Color.White;
+            save.BackColor= Color.Red;
             save.Text = "Save";
             save.SetBounds(Convert.ToInt32(tools.Width * 0.905), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             save.Font = font;
@@ -365,9 +372,57 @@ namespace Systemy_Wspomagania_Decyzji
             {
                 grid[grid.ColumnCount - 1, i].Value = values[i];
             }
+         
             o.Close();
             o.Dispose();
         }
+        private void displayPercent(object sender, EventArgs e)
+        {
+            int colNr = grid.CurrentCell.ColumnIndex;
+            Form2 f2 = new Form2();
+            double s;
+
+            if (double.TryParse(grid[colNr, 0].Value.ToString(), out s))
+            {
+                f2.Width = 500;
+                f2.Height = 300;
+                System.Windows.Forms.Label percentLabel = new System.Windows.Forms.Label();
+                percentLabel.Text = "Set Percent";
+                percentLabel.SetBounds(100, 70, 50, 30);
+                f2.Controls.Add(percentLabel);
+                f2.percent = new TextBox();
+                f2.percent.KeyPress += onlyNumbersListener;
+                f2.percent.SetBounds(100, 100, 100, 60);
+                f2.Controls.Add(f2.percent);
+                f2.percentOf = new ComboBox();
+                f2.percentOf.Items.AddRange(new string[] {"Top","Down","Margin"});
+                f2.percentOf.SetBounds(200,100,50,60);
+                f2.Controls.Add(f2.percentOf);
+                Button close = new Button();
+                close.Text = "Submit";
+                close.Click += displayPercentsubmit;
+                close.SetBounds(200, 200, 100, 50);
+                f2.Controls.Add(close);
+                f2.Show();
+            }
+            else
+            {
+                MessageBox.Show("Values from this column aren`t Numbers.");
+            }
+        }
+
+        private void displayPercentsubmit(object sender, EventArgs e)
+        {
+            Form2 o = (Form2)((Button)sender).Parent;
+            String type = (String) o.percentOf.SelectedItem;
+            //not finished
+
+            o.Close();
+            o.Dispose();
+        }
+
+
+
         private void updateCnvert(object sender, DataGridViewCellEventArgs e) { 
             for (int i=0;i<grid.Columns.Count;i++)
             {

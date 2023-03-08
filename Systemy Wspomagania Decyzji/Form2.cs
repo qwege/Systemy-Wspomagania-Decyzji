@@ -15,6 +15,8 @@ namespace Systemy_Wspomagania_Decyzji
         public TextBox numberOfDyscretize;
         public TextBox changeRangemin;
         public TextBox changeRangemax;
+        public TextBox percent;
+        public ComboBox percentOf;
         public Form2()
         {
             InitializeComponent();
