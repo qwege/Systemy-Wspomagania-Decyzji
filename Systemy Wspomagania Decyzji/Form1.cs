@@ -92,7 +92,6 @@ namespace Systemy_Wspomagania_Decyzji
             showFiltered.BackColor = Color.White;
             showFiltered.Click += displayPercent;
             showFiltered.Text = "Display Percent";
-            showFiltered.BackColor = Color.Orange;
             showFiltered.SetBounds(Convert.ToInt32(tools.Width * 0.545), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             showFiltered.Font = font;
             tools.Controls.Add(showFiltered);

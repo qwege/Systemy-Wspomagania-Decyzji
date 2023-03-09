@@ -178,7 +178,7 @@ namespace Systemy_Wspomagania_Decyzji
 
             foreach (double d in data)
             {
-                result.Add((d - min) / diff * newdiff + min);
+                result.Add((d - minCurrent) / diff * newdiff + min);
             }
             return result;
             
