@@ -83,7 +83,6 @@ namespace Systemy_Wspomagania_Decyzji
             changeRange.Click += changerange;
             changeRange.BackColor = Color.White;
             changeRange.Text = "Change Range";
-            changeRange.BackColor = Color.Yellow;
             changeRange.SetBounds(Convert.ToInt32(tools.Width * 0.455), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             changeRange.Font = font;
             tools.Controls.Add(changeRange);
@@ -99,6 +98,7 @@ namespace Systemy_Wspomagania_Decyzji
             Button diagram2D = new Button();
             diagram2D.BackColor = Color.White;
             diagram2D.Text = "Show 2D Diagram";
+            diagram2D.Click += draw2d;
             diagram2D.BackColor = Color.Red;
             diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.635), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             diagram2D.Font = font;
@@ -129,6 +129,7 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(save);
         }
 
+        
 
         private void intiTable()
         {
@@ -441,8 +442,8 @@ namespace Systemy_Wspomagania_Decyzji
                     }
                     else if (type.Equals("Margin"))
                     {
-                        double minVal = list[(int)((list.Length - 1) * percent / 100)];
-                        double maxVal = list[(int)((list.Length - 1) - (list.Length - 1) * percent / 100)];
+                        double minVal = list[(int)((list.Length - 1) * percent / 200)];
+                        double maxVal = list[(int)((list.Length - 1) - (list.Length - 1) * percent / 200)];
                         if (Convert.ToDouble(grid[colNr, i].Value) <= minVal || Convert.ToDouble(grid[colNr, i].Value) >= maxVal) grid[colNr, i].Style.BackColor = Color.GreenYellow;
                     }
                 }
@@ -483,6 +484,79 @@ namespace Systemy_Wspomagania_Decyzji
             if (i < rightIndex)
                 SortArray(array, i, rightIndex);
             return array;
+        }
+
+        private void draw2d(object sender, EventArgs e)
+        {
+            Form2 f2 = new Form2();
+            f2.Width = 500;
+            f2.Height = 600;
+
+            System.Windows.Forms.Label firstColumn = new System.Windows.Forms.Label();
+            firstColumn.Text = "First Column ( X )";
+            firstColumn.SetBounds(10, 10, 150, 30);
+            f2.Controls.Add(firstColumn);
+
+            f2.selectColumn1 = new ComboBox();
+            f2.selectColumn1.SetBounds(10, 55, 150, 40);
+            for (int i = 0; i < grid.ColumnCount; i++)
+            {
+                f2.selectColumn1.Items.Add(grid.Columns[i].Name);
+            }
+            f2.selectColumn1.SelectedIndex= 0;
+            f2.Controls.Add(f2.selectColumn1);
+
+            System.Windows.Forms.Label secoundColumn = new System.Windows.Forms.Label();
+            secoundColumn.Text = "Second Column ( Y )";
+            secoundColumn.SetBounds(180, 10, 150, 30);
+            f2.Controls.Add(secoundColumn);
+
+            f2.selectColumn2 = new ComboBox();
+            f2.selectColumn2.SetBounds(180, 55, 150, 40);
+            for (int i = 0; i < grid.ColumnCount; i++)
+            {
+                f2.selectColumn2.Items.Add(grid.Columns[i].HeaderText);
+            }
+            f2.selectColumn2.SelectedIndex = 0;
+            f2.selectColumn2.SelectedIndexChanged += drawAgain;
+            f2.Controls.Add(f2.selectColumn2);
+            
+ ;
+
+            Button submit = new Button();
+            submit.Text= "Close";
+            submit.SetBounds(360,10,120,80);
+            submit.Click += close;
+            f2.Controls.Add(submit);
+
+            f2.drawPanel = new Panel();
+            f2.drawPanel.SetBounds(0,100,500,500);
+            f2.Controls.Add(f2.drawPanel);
+
+            draw(f2.drawPanel, grid.Columns[0].HeaderText, grid.Columns[0].HeaderText);
+
+            f2.Show();
+
+        }
+
+        private void drawAgain(object sender, EventArgs e)
+        {
+            Form2 o = (Form2)((Button)sender).Parent;
+            draw(o.drawPanel, (string)o.selectColumn1.SelectedItem, (string)o.selectColumn2.SelectedItem);
+        }
+
+        private void draw(Panel drawPanel, String col1Header, String col2Header)
+        {
+            MessageBox.Show("Draw not implemented");
+        }
+
+
+
+        private void close(object sender, EventArgs e)
+        {
+            Form2 o = (Form2)((Button)sender).Parent;
+            o.Close();
+            o.Dispose();
         }
 
         private void updateCnvert(object sender, DataGridViewCellEventArgs e) { 

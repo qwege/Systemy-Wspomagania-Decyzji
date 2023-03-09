@@ -17,6 +17,9 @@ namespace Systemy_Wspomagania_Decyzji
         public TextBox changeRangemax;
         public TextBox percent;
         public ComboBox percentOf;
+        public Panel drawPanel;
+        public ComboBox selectColumn1;
+        public ComboBox selectColumn2;
         public Form2()
         {
             InitializeComponent();
