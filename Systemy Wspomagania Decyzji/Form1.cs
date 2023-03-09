@@ -387,7 +387,7 @@ namespace Systemy_Wspomagania_Decyzji
                 f2.Width = 500;
                 f2.Height = 300;
                 System.Windows.Forms.Label percentLabel = new System.Windows.Forms.Label();
-                percentLabel.Text = "Set Percent";
+                percentLabel.Text = "Set Percent (0-100)";
                 percentLabel.SetBounds(100, 70, 50, 30);
                 f2.Controls.Add(percentLabel);
                 f2.percent = new TextBox();
@@ -415,13 +415,76 @@ namespace Systemy_Wspomagania_Decyzji
         {
             Form2 o = (Form2)((Button)sender).Parent;
             String type = (String) o.percentOf.SelectedItem;
-            //not finished
+            double percent = Convert.ToDouble(o.percent.Text);
+            if (percent > 100 || percent < 0) MessageBox.Show("Invalid Percent");
+            else {
+                int colNr = grid.CurrentCell.ColumnIndex;
+                int rowC = grid.RowCount-1;
+                double[] list = new double[rowC];
+                for (int i = 0; i < rowC; i++)
+                {
+                    list[i] = Convert.ToDouble(grid[colNr, i].Value);
+                    grid[colNr, i].Style.BackColor = Color.White;
+                }
+                list=SortArray(list,0,list.Length-1);
+              
+                for (int i = 0; i < rowC; i++)
+                {
+                    if (type.Equals("Down"))
+                    {
+                        double lastVal = list[(int)((list.Length - 1) * percent / 100)];
+                        if (Convert.ToDouble(grid[colNr, i].Value) <= lastVal) grid[colNr, i].Style.BackColor = Color.GreenYellow;
+                    }
+                    else if (type.Equals("Top"))
+                    {
+                        double lastVal = list[(int)((list.Length - 1)-(list.Length - 1) * percent / 100)];
+                        if (Convert.ToDouble(grid[colNr, i].Value) >= lastVal) grid[colNr, i].Style.BackColor = Color.GreenYellow;
+                    }
+                    else if (type.Equals("Margin"))
+                    {
+                        double minVal = list[(int)((list.Length - 1) * percent / 100)];
+                        double maxVal = list[(int)((list.Length - 1) - (list.Length - 1) * percent / 100)];
+                        if (Convert.ToDouble(grid[colNr, i].Value) <= minVal || Convert.ToDouble(grid[colNr, i].Value) >= maxVal) grid[colNr, i].Style.BackColor = Color.GreenYellow;
+                    }
+                }
+            }
 
             o.Close();
             o.Dispose();
         }
 
+        private double[] SortArray(double[] array, int leftIndex, int rightIndex)
+        {
+            var i = leftIndex;
+            var j = rightIndex;
+            var pivot = array[leftIndex];
+            while (i <= j)
+            {
+                while (array[i] < pivot)
+                {
+                    i++;
+                }
 
+                while (array[j] > pivot)
+                {
+                    j--;
+                }
+                if (i <= j)
+                {
+                    double temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                    i++;
+                    j--;
+                }
+            }
+
+            if (leftIndex < j)
+                SortArray(array, leftIndex, j);
+            if (i < rightIndex)
+                SortArray(array, i, rightIndex);
+            return array;
+        }
 
         private void updateCnvert(object sender, DataGridViewCellEventArgs e) { 
             for (int i=0;i<grid.Columns.Count;i++)
