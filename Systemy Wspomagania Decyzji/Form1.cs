@@ -99,7 +99,7 @@ namespace Systemy_Wspomagania_Decyzji
             diagram2D.BackColor = Color.White;
             diagram2D.Text = "Show 2D Diagram";
             diagram2D.Click += draw2d;
-            diagram2D.BackColor = Color.Red;
+            diagram2D.BackColor = Color.Orange;
             diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.635), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             diagram2D.Font = font;
             tools.Controls.Add(diagram2D);
