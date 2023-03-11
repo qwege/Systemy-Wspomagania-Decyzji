@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Reflection.Emit;
 using System.Windows.Forms;
+using ZedGraph;
 
 namespace Systemy_Wspomagania_Decyzji
 {
@@ -107,7 +109,7 @@ namespace Systemy_Wspomagania_Decyzji
             Button diagram3D = new Button();
             diagram3D.BackColor = Color.White;
             diagram3D.Text = "Show 3D Diagram";
-            diagram3D.BackColor=Color.Red;
+            diagram3D.BackColor = Color.Red;
             diagram3D.SetBounds(Convert.ToInt32(tools.Width * 0.725), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             diagram3D.Font = font;
             tools.Controls.Add(diagram3D);
@@ -122,14 +124,14 @@ namespace Systemy_Wspomagania_Decyzji
 
             Button save = new Button();
             save.BackColor = Color.White;
-            save.BackColor= Color.Red;
+            save.BackColor = Color.Red;
             save.Text = "Save";
             save.SetBounds(Convert.ToInt32(tools.Width * 0.905), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             save.Font = font;
             tools.Controls.Add(save);
         }
 
-        
+
 
         private void intiTable()
         {
@@ -367,12 +369,12 @@ namespace Systemy_Wspomagania_Decyzji
             {
                 values.Add(Convert.ToDouble(grid[colNr, i].Value));
             }
-            values = Tools.changeRange(values,minNewRange,maxNewRange);
+            values = Tools.changeRange(values, minNewRange, maxNewRange);
             for (int i = 0; i < grid.Rows.Count - 1; i++)
             {
                 grid[grid.ColumnCount - 1, i].Value = values[i];
             }
-         
+
             o.Close();
             o.Dispose();
         }
@@ -395,8 +397,8 @@ namespace Systemy_Wspomagania_Decyzji
                 f2.percent.SetBounds(100, 100, 100, 60);
                 f2.Controls.Add(f2.percent);
                 f2.percentOf = new ComboBox();
-                f2.percentOf.Items.AddRange(new string[] {"Top","Down","Margin"});
-                f2.percentOf.SetBounds(200,100,50,60);
+                f2.percentOf.Items.AddRange(new string[] { "Top", "Down", "Margin" });
+                f2.percentOf.SetBounds(200, 100, 50, 60);
                 f2.Controls.Add(f2.percentOf);
                 Button close = new Button();
                 close.Text = "Submit";
@@ -414,20 +416,21 @@ namespace Systemy_Wspomagania_Decyzji
         private void displayPercentsubmit(object sender, EventArgs e)
         {
             Form2 o = (Form2)((Button)sender).Parent;
-            String type = (String) o.percentOf.SelectedItem;
+            String type = (String)o.percentOf.SelectedItem;
             double percent = Convert.ToDouble(o.percent.Text);
             if (percent > 100 || percent < 0) MessageBox.Show("Invalid Percent");
-            else {
+            else
+            {
                 int colNr = grid.CurrentCell.ColumnIndex;
-                int rowC = grid.RowCount-1;
+                int rowC = grid.RowCount - 1;
                 double[] list = new double[rowC];
                 for (int i = 0; i < rowC; i++)
                 {
                     list[i] = Convert.ToDouble(grid[colNr, i].Value);
                     grid[colNr, i].Style.BackColor = Color.White;
                 }
-                list=SortArray(list,0,list.Length-1);
-              
+                list = SortArray(list, 0, list.Length - 1);
+
                 for (int i = 0; i < rowC; i++)
                 {
                     if (type.Equals("Down"))
@@ -437,7 +440,7 @@ namespace Systemy_Wspomagania_Decyzji
                     }
                     else if (type.Equals("Top"))
                     {
-                        double lastVal = list[(int)((list.Length - 1)-(list.Length - 1) * percent / 100)];
+                        double lastVal = list[(int)((list.Length - 1) - (list.Length - 1) * percent / 100)];
                         if (Convert.ToDouble(grid[colNr, i].Value) >= lastVal) grid[colNr, i].Style.BackColor = Color.GreenYellow;
                     }
                     else if (type.Equals("Margin"))
@@ -501,9 +504,9 @@ namespace Systemy_Wspomagania_Decyzji
             f2.selectColumn1.SetBounds(10, 55, 150, 40);
             for (int i = 0; i < grid.ColumnCount; i++)
             {
-                f2.selectColumn1.Items.Add(grid.Columns[i].Name);
+                f2.selectColumn1.Items.Add(grid.Columns[i].HeaderText);
             }
-            f2.selectColumn1.SelectedIndex= 0;
+            f2.selectColumn1.SelectedIndex = 0;
             f2.Controls.Add(f2.selectColumn1);
 
             System.Windows.Forms.Label secoundColumn = new System.Windows.Forms.Label();
@@ -520,20 +523,20 @@ namespace Systemy_Wspomagania_Decyzji
             f2.selectColumn2.SelectedIndex = 0;
             f2.selectColumn2.SelectedIndexChanged += drawAgain;
             f2.Controls.Add(f2.selectColumn2);
-            
- ;
+
+            ;
 
             Button submit = new Button();
-            submit.Text= "Close";
-            submit.SetBounds(360,10,120,80);
+            submit.Text = "Close";
+            submit.SetBounds(360, 10, 120, 80);
             submit.Click += close;
             f2.Controls.Add(submit);
 
-            f2.drawPanel = new Panel();
-            f2.drawPanel.SetBounds(0,100,500,500);
-            f2.Controls.Add(f2.drawPanel);
+            f2.zedGraphControl = new ZedGraphControl();
+            f2.zedGraphControl.SetBounds(0, 100, 500, 500);
+            f2.Controls.Add(f2.zedGraphControl);
 
-            draw(f2.drawPanel, grid.Columns[0].HeaderText, grid.Columns[0].HeaderText);
+            draw(f2.zedGraphControl, grid.Columns[0].HeaderText, grid.Columns[0].HeaderText);
 
             f2.Show();
 
@@ -541,13 +544,100 @@ namespace Systemy_Wspomagania_Decyzji
 
         private void drawAgain(object sender, EventArgs e)
         {
-            Form2 o = (Form2)((Button)sender).Parent;
-            draw(o.drawPanel, (string)o.selectColumn1.SelectedItem, (string)o.selectColumn2.SelectedItem);
+            Form2 o = (Form2)((ComboBox)sender).Parent;
+            draw(o.zedGraphControl, (string)o.selectColumn1.SelectedItem, (string)o.selectColumn2.SelectedItem);
         }
 
-        private void draw(Panel drawPanel, String col1Header, String col2Header)
+        private void draw(ZedGraphControl drawPanel, String col1Header, String col2Header)
         {
-            MessageBox.Show("Draw not implemented");
+            List<double> data1 = new List<double>();
+            List<double> data2 = new List<double>();
+            try
+            {
+                for (int i = 0; i < grid.Columns.Count; i++)
+                {
+                    if (grid.Columns[i].HeaderText.Equals(col1Header))
+                    {
+                        for (int j = 0; j < grid.RowCount - 1; j++)
+                        {
+                            data1.Add(Convert.ToDouble(grid[i, j].Value));
+                        }
+                        break;
+                    }
+                }
+                for (int i = 0; i < grid.Columns.Count; i++)
+                {
+                    if (grid.Columns[i].HeaderText.Equals(col2Header))
+                    {
+                        for (int j = 0; j < grid.RowCount - 1; j++)
+                        {
+                            data2.Add(Convert.ToDouble(grid[i, j].Value));
+                        }
+                        break;
+                    }
+                }
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Data from column isn`t Numbers");
+            }
+            catch (InvalidCastException ex)
+            {
+                MessageBox.Show("Data from column isn`t Numbers");
+            }
+            catch (OverflowException ex)
+            {
+                MessageBox.Show("Data from column isn`t Numbers");
+            }
+            double Xmax = double.MinValue, Ymax = double.MinValue, Xmin = double.MaxValue, Ymin = double.MaxValue;
+            foreach (double d in data1)
+            {
+                if (d > Xmax) Xmax = d;
+                if (d < Xmin) Xmin = d;
+            }
+            foreach (double d in data2)
+            {
+                if (d > Ymax) Ymax = d;
+                if (d < Ymin) Ymin = d;
+            }
+            // clear old curves
+            drawPanel.GraphPane.CurveList.Clear();
+
+            // clear old Y axes and manually add new ones
+            drawPanel.GraphPane.YAxisList.Clear();
+
+            // add a traditional Y axis
+            drawPanel.GraphPane.AddYAxis("First Axis");
+            var firstAxis = drawPanel.GraphPane.YAxisList[0];
+            firstAxis.Color = Color.Blue;
+
+            var secondAxis = drawPanel.GraphPane.YAxisList[1];
+            secondAxis.Scale.Max = 1000;
+            secondAxis.Scale.Min = -1000;
+            secondAxis.Scale.FontSpec.FontColor = Color.Green;
+            secondAxis.Title.FontSpec.FontColor = Color.Green;
+            secondAxis.Color = Color.Green;
+
+
+
+            // plot the data as curves
+            var curve1 = drawPanel.GraphPane.AddCurve("Small", data1.ToArray(), data2.ToArray(), Color.Blue);
+
+            // specify which curve is to use which axis
+            curve1.YAxisIndex = 0;
+
+
+            // style the plot
+            drawPanel.GraphPane.Title.Text = $"2D Graph";
+            drawPanel.GraphPane.XAxis.Title.Text = "Horizontal Axis Label";
+
+            // auto-axis and update the display
+            drawPanel.GraphPane.XAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
+            drawPanel.GraphPane.YAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
+            drawPanel.Refresh();
+
+
+
         }
 
 
@@ -559,8 +649,9 @@ namespace Systemy_Wspomagania_Decyzji
             o.Dispose();
         }
 
-        private void updateCnvert(object sender, DataGridViewCellEventArgs e) { 
-            for (int i=0;i<grid.Columns.Count;i++)
+        private void updateCnvert(object sender, DataGridViewCellEventArgs e)
+        {
+            for (int i = 0; i < grid.Columns.Count; i++)
             {
                 try
                 {
@@ -582,7 +673,8 @@ namespace Systemy_Wspomagania_Decyzji
                             grid[i, j].Value = DateTime.Parse(grid[i, j].Value.ToString());
                         }
                     }
-                }catch(NullReferenceException ex) { }
+                }
+                catch (NullReferenceException ex) { }
             }
         }
     }

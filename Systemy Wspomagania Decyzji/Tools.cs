@@ -184,5 +184,10 @@ namespace Systemy_Wspomagania_Decyzji
             
 
         }
+        public static void test()
+        {
+            
+        }
+
     }
 }
