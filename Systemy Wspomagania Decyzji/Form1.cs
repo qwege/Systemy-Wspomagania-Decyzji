@@ -491,8 +491,8 @@ namespace Systemy_Wspomagania_Decyzji
         private void draw2d(object sender, EventArgs e)
         {
             Form2 f2 = new Form2();
-            f2.Width = 500;
-            f2.Height = 600;
+            f2.Width = 550;
+            f2.Height = 650;
 
             System.Windows.Forms.Label firstColumn = new System.Windows.Forms.Label();
             firstColumn.Text = "First Column ( X )";
@@ -575,19 +575,7 @@ namespace Systemy_Wspomagania_Decyzji
                         break;
                     }
                 }
-            }
-            catch (FormatException ex)
-            {
-                MessageBox.Show("Data from column isn`t Numbers");
-            }
-            catch (InvalidCastException ex)
-            {
-                MessageBox.Show("Data from column isn`t Numbers");
-            }
-            catch (OverflowException ex)
-            {
-                MessageBox.Show("Data from column isn`t Numbers");
-            }
+            
             double Xmax = double.MinValue, Ymax = double.MinValue, Xmin = double.MaxValue, Ymin = double.MaxValue;
             foreach (double d in data1)
             {
@@ -606,36 +594,44 @@ namespace Systemy_Wspomagania_Decyzji
             drawPanel.GraphPane.YAxisList.Clear();
 
             // add a traditional Y axis
-            drawPanel.GraphPane.AddYAxis("First Axis");
+            drawPanel.GraphPane.AddYAxis(col2Header);
             var firstAxis = drawPanel.GraphPane.YAxisList[0];
             firstAxis.Color = Color.Blue;
 
-            var secondAxis = drawPanel.GraphPane.YAxisList[1];
-            secondAxis.Scale.Max = 1000;
-            secondAxis.Scale.Min = -1000;
-            secondAxis.Scale.FontSpec.FontColor = Color.Green;
-            secondAxis.Title.FontSpec.FontColor = Color.Green;
-            secondAxis.Color = Color.Green;
-
+           
 
 
             // plot the data as curves
-            var curve1 = drawPanel.GraphPane.AddCurve("Small", data1.ToArray(), data2.ToArray(), Color.Blue);
+            var curve1 = drawPanel.GraphPane.AddCurve("Main", data1.ToArray(), data2.ToArray(), Color.Blue);
 
             // specify which curve is to use which axis
             curve1.YAxisIndex = 0;
+                drawPanel.GraphPane.Title.Text = col1Header + " & " + col2Header;
+                curve1.Line.IsVisible = false;
 
 
             // style the plot
             drawPanel.GraphPane.Title.Text = $"2D Graph";
-            drawPanel.GraphPane.XAxis.Title.Text = "Horizontal Axis Label";
+            drawPanel.GraphPane.XAxis.Title.Text = col1Header;
 
             // auto-axis and update the display
             drawPanel.GraphPane.XAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
             drawPanel.GraphPane.YAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
             drawPanel.Refresh();
 
-
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Data from column isn`t Numbers");
+            }
+            catch (InvalidCastException ex)
+            {
+                MessageBox.Show("Data from column isn`t Numbers");
+            }
+            catch (OverflowException ex)
+            {
+                MessageBox.Show("Data from column isn`t Numbers");
+            }
 
         }
 
