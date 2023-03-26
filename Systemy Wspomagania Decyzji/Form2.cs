@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using ZedGraph;
 
 namespace Systemy_Wspomagania_Decyzji
@@ -21,10 +23,12 @@ namespace Systemy_Wspomagania_Decyzji
         public ComboBox selectColumn1;
         public ComboBox selectColumn2;
         public ZedGraphControl zedGraphControl;
+        
         public Form2()
         {
             InitializeComponent();
         }
+       
     }
     public class DrawPanel : Panel
     {

@@ -6,6 +6,10 @@ using System.Globalization;
 using System.Reflection.Emit;
 using System.Windows.Forms;
 using ZedGraph;
+using System.Windows.Forms.Integration;
+using System.Windows.Media.Media3D;
+using HelixToolkit.Wpf;
+using System.Windows.Documents;
 
 namespace Systemy_Wspomagania_Decyzji
 {
@@ -116,6 +120,7 @@ namespace Systemy_Wspomagania_Decyzji
             Button histogram = new Button();
             histogram.BackColor = Color.White;
             histogram.Text = "Show Histogram";
+            histogram.Click += histogramCreate;
             histogram.BackColor = Color.Red;
             histogram.SetBounds(Convert.ToInt32(tools.Width * 0.815), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             histogram.Font = font;
@@ -130,7 +135,7 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(save);
         }
 
-
+       
 
         private void intiTable()
         {
@@ -634,6 +639,58 @@ namespace Systemy_Wspomagania_Decyzji
             }
 
         }
+        private void histogramCreate(object sender, EventArgs e)
+        {
+            int colNr = grid.CurrentCell.ColumnIndex;
+            Form2 f2 = new Form2();
+            f2.Width = 1500;
+            f2.Height = 500;
+            List<histogramData> histList = new List<histogramData>();
+
+          
+            List<String> values = new List<String>();
+         
+            for (int i = 0; i < grid.Rows.Count - 1; i++)
+            {
+                values.Add(Convert.ToString(grid[colNr, i].Value));
+            }
+            for (int i = 0; i < values.Count; i++) {
+                bool added = false;
+                for ( int j = 0; j < histList.Count; j++)
+                {
+                    if (values[i] == histList[j].data) { 
+                        histList[j].count++;
+                        added = true;
+                    }
+                }
+                if (!added) {
+                    histogramData h = new histogramData();
+                    h.data = values[i];
+                    h.count = 1;
+                    histList.Add(h);
+                }
+            }
+            double max = 0;
+            for (int i = 0; i > histList.Count; i++) {
+                if (histList[i].count > max) max = histList[i].count;
+            }
+           
+            f2.zedGraphControl = new ZedGraphControl();
+            f2.zedGraphControl.SetBounds(0, 0, 1400, 400);
+            f2.zedGraphControl.GraphPane.YAxis.Title.Text = "data";
+            f2.zedGraphControl.GraphPane.XAxis.Title.Text = "Count";
+            Color[] colors = new Color[] { Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Purple };
+            
+            for (int i = 0; i < histList.Count; i++)
+            {
+                PointPairList spl1 = new PointPairList(new double[] { 0.1*i }, new double[] { histList[i].count });
+                BarItem myBar = f2.zedGraphControl.GraphPane.AddBar(histList[i].data, spl1, colors[i%5]);
+            }
+            f2.zedGraphControl.RestoreScale(f2.zedGraphControl.GraphPane);
+            f2.Controls.Add(f2.zedGraphControl);
+
+            f2.Show();
+        }
 
 
 
@@ -643,6 +700,8 @@ namespace Systemy_Wspomagania_Decyzji
             o.Close();
             o.Dispose();
         }
+        
+       
 
         private void updateCnvert(object sender, DataGridViewCellEventArgs e)
         {
@@ -672,6 +731,12 @@ namespace Systemy_Wspomagania_Decyzji
                 catch (NullReferenceException ex) { }
             }
         }
+    }
+    public partial class histogramData
+    {
+        public String data;
+        public double count;
+       
     }
 }
 
