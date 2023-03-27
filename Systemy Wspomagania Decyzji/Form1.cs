@@ -121,7 +121,6 @@ namespace Systemy_Wspomagania_Decyzji
             histogram.BackColor = Color.White;
             histogram.Text = "Show Histogram";
             histogram.Click += histogramCreate;
-            histogram.BackColor = Color.Red;
             histogram.SetBounds(Convert.ToInt32(tools.Width * 0.815), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             histogram.Font = font;
             tools.Controls.Add(histogram);
@@ -129,13 +128,14 @@ namespace Systemy_Wspomagania_Decyzji
             Button save = new Button();
             save.BackColor = Color.White;
             save.BackColor = Color.Red;
+            save.Click += saveClick;
             save.Text = "Save";
             save.SetBounds(Convert.ToInt32(tools.Width * 0.905), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
             save.Font = font;
             tools.Controls.Add(save);
         }
 
-       
+      
 
         private void intiTable()
         {
@@ -670,29 +670,47 @@ namespace Systemy_Wspomagania_Decyzji
                     histList.Add(h);
                 }
             }
-            double max = 0;
-            for (int i = 0; i > histList.Count; i++) {
-                if (histList[i].count > max) max = histList[i].count;
-            }
-           
-            f2.zedGraphControl = new ZedGraphControl();
-            f2.zedGraphControl.SetBounds(0, 0, 1400, 400);
-            f2.zedGraphControl.GraphPane.YAxis.Title.Text = "data";
-            f2.zedGraphControl.GraphPane.XAxis.Title.Text = "Count";
-            Color[] colors = new Color[] { Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Purple };
-            
-            for (int i = 0; i < histList.Count; i++)
+            if (histList.Count > 15) { MessageBox.Show("First Discretize values from this column!"); }
+            else
             {
-                PointPairList spl1 = new PointPairList(new double[] { 0.1*i }, new double[] { histList[i].count });
-                BarItem myBar = f2.zedGraphControl.GraphPane.AddBar(histList[i].data, spl1, colors[i%5]);
-            }
-            f2.zedGraphControl.RestoreScale(f2.zedGraphControl.GraphPane);
-            f2.Controls.Add(f2.zedGraphControl);
+                double max = 0;
+                for (int i = 0; i > histList.Count; i++)
+                {
+                    if (histList[i].count > max) max = histList[i].count;
+                }
 
-            f2.Show();
+                f2.zedGraphControl = new ZedGraphControl();
+                f2.zedGraphControl.SetBounds(0, 0, 1400, 400);
+                f2.zedGraphControl.GraphPane.YAxis.Title.Text = "data";
+                f2.zedGraphControl.GraphPane.XAxis.Title.Text = "Count";
+                Color[] colors = new Color[] { Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Purple };
+
+                for (int i = 0; i < histList.Count; i++)
+                {
+                    PointPairList spl1 = new PointPairList(new double[] { 0.1 * i }, new double[] { histList[i].count });
+                    BarItem myBar = f2.zedGraphControl.GraphPane.AddBar(histList[i].data, spl1, colors[i % 5]);
+                }
+                f2.zedGraphControl.RestoreScale(f2.zedGraphControl.GraphPane);
+                f2.Controls.Add(f2.zedGraphControl);
+
+                f2.Show();
+            }
         }
 
+        private void saveClick(object sender, EventArgs e)
+        {
+            Object[,] data = new object[grid.ColumnCount,grid.RowCount];
+            for ( int i = 0; i < grid.ColumnCount; i++)
+            {
+                
+                for (int j = 0; j < grid.RowCount; j++)
+                {
+                    data[i,j] = grid[i, j].Value;
+                }
+            }
+            Tools.saveData(data, grid.ColumnCount, grid.RowCount);
 
+        }
 
         private void close(object sender, EventArgs e)
         {

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using HelixToolkit.Wpf;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.VisualBasic.FileIO;
 
@@ -189,5 +190,27 @@ namespace Systemy_Wspomagania_Decyzji
             
         }
 
+        internal static void saveData(object[,] data,int l1, int l2)
+        {
+            Microsoft.Office.Interop.Excel.Application App = new Microsoft.Office.Interop.Excel.Application();
+
+            SaveFileDialog openFileDialog = new SaveFileDialog();
+            openFileDialog.FilterIndex = 1;
+            string sFileName = "";
+            openFileDialog.DefaultExt = "xlsx";
+            openFileDialog.Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                sFileName = openFileDialog.FileName;
+                Workbook wb = App.Workbooks.Add();
+                Worksheet ws = wb.Worksheets[1];
+                var starta = (Microsoft.Office.Interop.Excel.Range)ws.Cells[1, 1];
+                var enda = (Microsoft.Office.Interop.Excel.Range)ws.Cells[l1,l2-1];
+                var rangea = ws.Range[starta, enda];
+                rangea.Value2 = data;
+                wb.SaveAs(sFileName);
+                App.Quit();
+            }
+        }
     }
 }
