@@ -677,7 +677,7 @@ namespace Systemy_Wspomagania_Decyzji
                             }
                         }
 
-                        var curve1 = drawPanel.GraphPane.AddCurve(classUniqe[i], data1.ToArray(), data2.ToArray(), colors[i]);
+                        var curve1 = drawPanel.GraphPane.AddCurve(classUniqe[i], classData1.ToArray(), classData2.ToArray(), colors[i]);
                         curve1.YAxisIndex = 0;
                         curve1.Line.IsVisible = false;
                     }
