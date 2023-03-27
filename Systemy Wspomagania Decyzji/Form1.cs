@@ -48,7 +48,7 @@ namespace Systemy_Wspomagania_Decyzji
             loadTextData.Click += loadtxt;
             loadTextData.BackColor = Color.White;
             loadTextData.Text = "Load Text Data";
-            loadTextData.SetBounds(Convert.ToInt32(tools.Width * 0.005), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            loadTextData.SetBounds(Convert.ToInt32(tools.Width * 0.005), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             loadTextData.Font = font;
             tools.Controls.Add(loadTextData);
 
@@ -56,7 +56,7 @@ namespace Systemy_Wspomagania_Decyzji
             loadExcelData.Click += loadExcel;
             loadExcelData.BackColor = Color.White;
             loadExcelData.Text = "Load Excel Data";
-            loadExcelData.SetBounds(Convert.ToInt32(tools.Width * 0.095), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            loadExcelData.SetBounds(Convert.ToInt32(tools.Width * 0.085), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             loadExcelData.Font = font;
             tools.Controls.Add(loadExcelData);
 
@@ -64,7 +64,7 @@ namespace Systemy_Wspomagania_Decyzji
             textToDigits.Click += textDigits;
             textToDigits.BackColor = Color.White;
             textToDigits.Text = "Text To Digits";
-            textToDigits.SetBounds(Convert.ToInt32(tools.Width * 0.185), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            textToDigits.SetBounds(Convert.ToInt32(tools.Width * 0.165), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             textToDigits.Font = font;
             tools.Controls.Add(textToDigits);
 
@@ -72,7 +72,7 @@ namespace Systemy_Wspomagania_Decyzji
             discretize.Click += dyscretizeColumn;
             discretize.BackColor = Color.White;
             discretize.Text = "Discretize";
-            discretize.SetBounds(Convert.ToInt32(tools.Width * 0.275), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            discretize.SetBounds(Convert.ToInt32(tools.Width * 0.245), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             discretize.Font = font;
             tools.Controls.Add(discretize);
 
@@ -81,7 +81,7 @@ namespace Systemy_Wspomagania_Decyzji
             standardization.Click += sandarization;
             standardization.BackColor = Color.White;
             standardization.Text = "Standarization";
-            standardization.SetBounds(Convert.ToInt32(tools.Width * 0.365), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            standardization.SetBounds(Convert.ToInt32(tools.Width * 0.325), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             standardization.Font = font;
             tools.Controls.Add(standardization);
 
@@ -89,7 +89,7 @@ namespace Systemy_Wspomagania_Decyzji
             changeRange.Click += changerange;
             changeRange.BackColor = Color.White;
             changeRange.Text = "Change Range";
-            changeRange.SetBounds(Convert.ToInt32(tools.Width * 0.455), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            changeRange.SetBounds(Convert.ToInt32(tools.Width * 0.405), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             changeRange.Font = font;
             tools.Controls.Add(changeRange);
 
@@ -97,7 +97,7 @@ namespace Systemy_Wspomagania_Decyzji
             showFiltered.BackColor = Color.White;
             showFiltered.Click += displayPercent;
             showFiltered.Text = "Display Percent";
-            showFiltered.SetBounds(Convert.ToInt32(tools.Width * 0.545), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            showFiltered.SetBounds(Convert.ToInt32(tools.Width * 0.485), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             showFiltered.Font = font;
             tools.Controls.Add(showFiltered);
 
@@ -105,7 +105,7 @@ namespace Systemy_Wspomagania_Decyzji
             diagram2D.BackColor = Color.White;
             diagram2D.Text = "Show 2D Diagram";
             diagram2D.Click += draw2d;
-            diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.635), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            diagram2D.SetBounds(Convert.ToInt32(tools.Width * 0.565), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             diagram2D.Font = font;
             tools.Controls.Add(diagram2D);
 
@@ -113,7 +113,7 @@ namespace Systemy_Wspomagania_Decyzji
             diagram3D.BackColor = Color.White;
             diagram3D.Text = "Show 3D Diagram";
             diagram3D.BackColor = Color.Red;
-            diagram3D.SetBounds(Convert.ToInt32(tools.Width * 0.725), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            diagram3D.SetBounds(Convert.ToInt32(tools.Width * 0.645), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             diagram3D.Font = font;
             tools.Controls.Add(diagram3D);
 
@@ -121,21 +121,28 @@ namespace Systemy_Wspomagania_Decyzji
             histogram.BackColor = Color.White;
             histogram.Text = "Show Histogram";
             histogram.Click += histogramCreate;
-            histogram.SetBounds(Convert.ToInt32(tools.Width * 0.815), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            histogram.SetBounds(Convert.ToInt32(tools.Width * 0.725), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             histogram.Font = font;
             tools.Controls.Add(histogram);
+
+            Button module2 = new Button();
+            module2.BackColor = Color.Red;
+            module2.Text = "Module 2";
+            module2.Click += module2_load;
+            module2.SetBounds(Convert.ToInt32(tools.Width * 0.805), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
+            module2.Font = font;
+            tools.Controls.Add(module2);
 
             Button save = new Button();
             save.BackColor = Color.White;
             save.Click += saveClick;
             save.Text = "Save";
-            save.SetBounds(Convert.ToInt32(tools.Width * 0.905), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
+            save.SetBounds(Convert.ToInt32(tools.Width * 0.915), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));
             save.Font = font;
             tools.Controls.Add(save);
         }
 
-
-
+        
         private void intiTable()
         {
             grid = new DataGridView();
@@ -772,6 +779,30 @@ namespace Systemy_Wspomagania_Decyzji
                 f2.Show();
             }
         }
+
+        private void module2_load(object sender, EventArgs e) {
+            double[,] data;
+            data = new double[grid.ColumnCount, grid.RowCount-1];
+            string[] headers = new string[grid.ColumnCount];
+            {
+                try {
+                    for (int i=0;i<grid.ColumnCount;i++)
+                    {
+                        headers[i] = grid.Columns[i].HeaderText;
+                        for (int j = 0; j < grid.RowCount-1; j++)
+                        {
+                            data[i, j] = Convert.ToDouble(grid[i, j].Value);
+                        }
+                    }
+                }
+                catch (FormatException ex) { }
+            }
+            ModuleTwo m2 = new ModuleTwo(data,headers);
+            m2.Show();
+            m2.onClose(this);
+            this.Hide();
+        }
+
 
         private void saveClick(object sender, EventArgs e)
         {

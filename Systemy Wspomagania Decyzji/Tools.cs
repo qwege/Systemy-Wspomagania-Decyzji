@@ -98,6 +98,8 @@ namespace Systemy_Wspomagania_Decyzji
             Microsoft.Office.Interop.Excel.Application App = new Microsoft.Office.Interop.Excel.Application();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.FilterIndex = 1;
+            openFileDialog.DefaultExt = "xlsx";
+            openFileDialog.Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
             string sFileName = "";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
