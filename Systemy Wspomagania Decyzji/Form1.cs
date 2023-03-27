@@ -127,7 +127,6 @@ namespace Systemy_Wspomagania_Decyzji
 
             Button save = new Button();
             save.BackColor = Color.White;
-            save.BackColor = Color.Red;
             save.Click += saveClick;
             save.Text = "Save";
             save.SetBounds(Convert.ToInt32(tools.Width * 0.905), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.09), Convert.ToInt32(tools.Height * 0.8));
