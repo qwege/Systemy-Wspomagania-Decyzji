@@ -134,7 +134,7 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(save);
         }
 
-      
+
 
         private void intiTable()
         {
@@ -500,25 +500,27 @@ namespace Systemy_Wspomagania_Decyzji
 
             System.Windows.Forms.Label firstColumn = new System.Windows.Forms.Label();
             firstColumn.Text = "First Column ( X )";
-            firstColumn.SetBounds(10, 10, 150, 30);
+            firstColumn.SetBounds(10, 10, 100, 30);
             f2.Controls.Add(firstColumn);
 
             f2.selectColumn1 = new ComboBox();
-            f2.selectColumn1.SetBounds(10, 55, 150, 40);
+            f2.selectColumn1.SetBounds(10, 55, 100, 40);
+
             for (int i = 0; i < grid.ColumnCount; i++)
             {
                 f2.selectColumn1.Items.Add(grid.Columns[i].HeaderText);
             }
             f2.selectColumn1.SelectedIndex = 0;
+            f2.selectColumn1.SelectedIndexChanged += drawAgain;
             f2.Controls.Add(f2.selectColumn1);
 
             System.Windows.Forms.Label secoundColumn = new System.Windows.Forms.Label();
             secoundColumn.Text = "Second Column ( Y )";
-            secoundColumn.SetBounds(180, 10, 150, 30);
+            secoundColumn.SetBounds(120, 10, 100, 30);
             f2.Controls.Add(secoundColumn);
 
             f2.selectColumn2 = new ComboBox();
-            f2.selectColumn2.SetBounds(180, 55, 150, 40);
+            f2.selectColumn2.SetBounds(120, 55, 100, 40);
             for (int i = 0; i < grid.ColumnCount; i++)
             {
                 f2.selectColumn2.Items.Add(grid.Columns[i].HeaderText);
@@ -527,7 +529,22 @@ namespace Systemy_Wspomagania_Decyzji
             f2.selectColumn2.SelectedIndexChanged += drawAgain;
             f2.Controls.Add(f2.selectColumn2);
 
-            ;
+
+
+            System.Windows.Forms.Label classColumn = new System.Windows.Forms.Label();
+            classColumn.Text = "Class Kolumn";
+            classColumn.SetBounds(220, 10, 100, 30);
+            f2.Controls.Add(classColumn);
+
+            f2.selectClassColumn = new ComboBox();
+            f2.selectClassColumn.SetBounds(220, 55, 100, 40);
+            for (int i = 0; i < grid.ColumnCount; i++)
+            {
+                f2.selectClassColumn.Items.Add(grid.Columns[i].HeaderText);
+            }
+            f2.selectClassColumn.SelectedIndex = 0;
+            f2.selectClassColumn.SelectedIndexChanged += drawAgain;
+            f2.Controls.Add(f2.selectClassColumn);
 
             Button submit = new Button();
             submit.Text = "Close";
@@ -539,7 +556,7 @@ namespace Systemy_Wspomagania_Decyzji
             f2.zedGraphControl.SetBounds(0, 100, 500, 500);
             f2.Controls.Add(f2.zedGraphControl);
 
-            draw(f2.zedGraphControl, grid.Columns[0].HeaderText, grid.Columns[0].HeaderText);
+            draw(f2.zedGraphControl, grid.Columns[0].HeaderText, grid.Columns[0].HeaderText, grid.Columns[0].HeaderText);
 
             f2.Show();
 
@@ -548,13 +565,15 @@ namespace Systemy_Wspomagania_Decyzji
         private void drawAgain(object sender, EventArgs e)
         {
             Form2 o = (Form2)((ComboBox)sender).Parent;
-            draw(o.zedGraphControl, (string)o.selectColumn1.SelectedItem, (string)o.selectColumn2.SelectedItem);
+            draw(o.zedGraphControl, (string)o.selectColumn1.SelectedItem, (string)o.selectColumn2.SelectedItem, (string)o.selectClassColumn.SelectedItem);
         }
 
-        private void draw(ZedGraphControl drawPanel, String col1Header, String col2Header)
+        private void draw(ZedGraphControl drawPanel, String col1Header, String col2Header, String classheader)
         {
             List<double> data1 = new List<double>();
             List<double> data2 = new List<double>();
+            List<String> class1 = new List<String>();
+            List<String> classUniqe = new List<String>();
             try
             {
                 for (int i = 0; i < grid.Columns.Count; i++)
@@ -579,49 +598,104 @@ namespace Systemy_Wspomagania_Decyzji
                         break;
                     }
                 }
-            
-            double Xmax = double.MinValue, Ymax = double.MinValue, Xmin = double.MaxValue, Ymin = double.MaxValue;
-            foreach (double d in data1)
-            {
-                if (d > Xmax) Xmax = d;
-                if (d < Xmin) Xmin = d;
-            }
-            foreach (double d in data2)
-            {
-                if (d > Ymax) Ymax = d;
-                if (d < Ymin) Ymin = d;
-            }
-            // clear old curves
-            drawPanel.GraphPane.CurveList.Clear();
+                for (int i = 0; i < grid.Columns.Count; i++)
+                {
+                    if (grid.Columns[i].HeaderText.Equals(classheader))
+                    {
+                        for (int j = 0; j < grid.RowCount - 1; j++)
+                        {
+                            class1.Add(Convert.ToString(grid[i, j].Value));
+                        }
+                        break;
+                    }
+                }
 
-            // clear old Y axes and manually add new ones
-            drawPanel.GraphPane.YAxisList.Clear();
+                for (int i = 0; i < class1.Count; i++)
+                {
+                    bool existed = false;
+                    foreach (String s in classUniqe)
+                    {
+                        if (class1[i] == s) existed = true;
+                    }
+                    if (!existed)
+                    {
+                        classUniqe.Add(class1[i]);
+                    }
 
-            // add a traditional Y axis
-            drawPanel.GraphPane.AddYAxis(col2Header);
-            var firstAxis = drawPanel.GraphPane.YAxisList[0];
-            firstAxis.Color = Color.Blue;
 
-           
+                }
 
 
-            // plot the data as curves
-            var curve1 = drawPanel.GraphPane.AddCurve("Main", data1.ToArray(), data2.ToArray(), Color.Blue);
 
-            // specify which curve is to use which axis
-            curve1.YAxisIndex = 0;
+
+
+                double Xmax = double.MinValue, Ymax = double.MinValue, Xmin = double.MaxValue, Ymin = double.MaxValue;
+                foreach (double d in data1)
+                {
+                    if (d > Xmax) Xmax = d;
+                    if (d < Xmin) Xmin = d;
+                }
+                foreach (double d in data2)
+                {
+                    if (d > Ymax) Ymax = d;
+                    if (d < Ymin) Ymin = d;
+                }
+                // clear old curves
+                drawPanel.GraphPane.CurveList.Clear();
+
+                // clear old Y axes and manually add new ones
+                drawPanel.GraphPane.YAxisList.Clear();
+
+                // add a traditional Y axis
+                drawPanel.GraphPane.AddYAxis(col2Header);
+                var firstAxis = drawPanel.GraphPane.YAxisList[0];
+                
+
+
+
+                if (classUniqe.Count > 8)
+                {
+                    // plot the data as curves
+                    var curve1 = drawPanel.GraphPane.AddCurve("Too much class", data1.ToArray(), data2.ToArray(), Color.Blue);
+                    curve1.YAxisIndex = 0;
+                    drawPanel.GraphPane.Title.Text = col1Header + " & " + col2Header;
+                    curve1.Line.IsVisible = false;
+                }
+                else
+                {
+                    Color[] colors = new Color[] { Color.Red, Color.Blue,Color.Brown,Color.DarkGreen,Color.DarkViolet,Color.Black,Color.Orange,Color.DarkCyan};
+                    for (int i = 0; i < classUniqe.Count; i++)
+                    {
+                        List<double> classData1 = new List<double>();
+                        List<double> classData2 = new List<double>();
+
+                        for (int j = 0; j < class1.Count; j++)
+                        {
+                            if (class1[j] == classUniqe[i]) { 
+                                classData1.Add(data1[j]);
+                                classData2.Add(data2[j]);
+                            }
+                        }
+
+                        var curve1 = drawPanel.GraphPane.AddCurve(classUniqe[i], data1.ToArray(), data2.ToArray(), colors[i]);
+                        curve1.YAxisIndex = 0;
+                        curve1.Line.IsVisible = false;
+                    }
+
+                }
                 drawPanel.GraphPane.Title.Text = col1Header + " & " + col2Header;
-                curve1.Line.IsVisible = false;
 
 
-            // style the plot
-            drawPanel.GraphPane.Title.Text = $"2D Graph";
-            drawPanel.GraphPane.XAxis.Title.Text = col1Header;
 
-            // auto-axis and update the display
-            drawPanel.GraphPane.XAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
-            drawPanel.GraphPane.YAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
-            drawPanel.Refresh();
+
+                // style the plot
+                drawPanel.GraphPane.Title.Text = $"2D Graph";
+                drawPanel.GraphPane.XAxis.Title.Text = col1Header;
+
+                // auto-axis and update the display
+                drawPanel.GraphPane.XAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
+                drawPanel.GraphPane.YAxis.ResetAutoScale(drawPanel.GraphPane, CreateGraphics());
+                drawPanel.Refresh();
 
             }
             catch (FormatException ex)
@@ -646,23 +720,26 @@ namespace Systemy_Wspomagania_Decyzji
             f2.Height = 500;
             List<histogramData> histList = new List<histogramData>();
 
-          
+
             List<String> values = new List<String>();
-         
+
             for (int i = 0; i < grid.Rows.Count - 1; i++)
             {
                 values.Add(Convert.ToString(grid[colNr, i].Value));
             }
-            for (int i = 0; i < values.Count; i++) {
+            for (int i = 0; i < values.Count; i++)
+            {
                 bool added = false;
-                for ( int j = 0; j < histList.Count; j++)
+                for (int j = 0; j < histList.Count; j++)
                 {
-                    if (values[i] == histList[j].data) { 
+                    if (values[i] == histList[j].data)
+                    {
                         histList[j].count++;
                         added = true;
                     }
                 }
-                if (!added) {
+                if (!added)
+                {
                     histogramData h = new histogramData();
                     h.data = values[i];
                     h.count = 1;
@@ -698,13 +775,13 @@ namespace Systemy_Wspomagania_Decyzji
 
         private void saveClick(object sender, EventArgs e)
         {
-            Object[,] data = new object[grid.ColumnCount,grid.RowCount];
-            for ( int i = 0; i < grid.ColumnCount; i++)
+            Object[,] data = new object[grid.ColumnCount, grid.RowCount];
+            for (int i = 0; i < grid.ColumnCount; i++)
             {
-                
+
                 for (int j = 0; j < grid.RowCount; j++)
                 {
-                    data[i,j] = grid[i, j].Value;
+                    data[i, j] = grid[i, j].Value;
                 }
             }
             Tools.saveData(data, grid.ColumnCount, grid.RowCount);
@@ -717,8 +794,8 @@ namespace Systemy_Wspomagania_Decyzji
             o.Close();
             o.Dispose();
         }
-        
-       
+
+
 
         private void updateCnvert(object sender, DataGridViewCellEventArgs e)
         {
@@ -753,7 +830,7 @@ namespace Systemy_Wspomagania_Decyzji
     {
         public String data;
         public double count;
-       
+
     }
 }
 

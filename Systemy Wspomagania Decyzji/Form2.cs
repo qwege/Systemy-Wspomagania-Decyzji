@@ -23,7 +23,7 @@ namespace Systemy_Wspomagania_Decyzji
         public ComboBox selectColumn1;
         public ComboBox selectColumn2;
         public ZedGraphControl zedGraphControl;
-        
+        public ComboBox selectClassColumn;
         public Form2()
         {
             InitializeComponent();
