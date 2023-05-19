@@ -126,7 +126,6 @@ namespace Systemy_Wspomagania_Decyzji
             tools.Controls.Add(histogram);
 
             Button module2 = new Button();
-            module2.BackColor = Color.Red;
             module2.Text = "Module 2";
             module2.Click += module2_load;
             module2.SetBounds(Convert.ToInt32(tools.Width * 0.805), Convert.ToInt32(tools.Height * 0.05), Convert.ToInt32(tools.Width * 0.08), Convert.ToInt32(tools.Height * 0.8));

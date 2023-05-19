@@ -34,7 +34,7 @@
             this.ilośćRekordówLabel = new System.Windows.Forms.Label();
             this.PominięteRekordyLabel = new System.Windows.Forms.Label();
             this.closeModuleButton = new System.Windows.Forms.Button();
-            this.showDraw2DButton = new System.Windows.Forms.Button();
+            this.showVector = new System.Windows.Forms.Button();
             this.zdefiniowaneRekordyLabel = new System.Windows.Forms.Label();
             this.generateOneStepButton = new System.Windows.Forms.Button();
             this.generateToEndButton = new System.Windows.Forms.Button();
@@ -87,7 +87,6 @@
             this.PominięteRekordyLabel.Size = new System.Drawing.Size(108, 13);
             this.PominięteRekordyLabel.TabIndex = 4;
             this.PominięteRekordyLabel.Text = "Pominięte Rekordy: 0";
-            this.PominięteRekordyLabel.Click += new System.EventHandler(this.label4_Click);
             // 
             // closeModuleButton
             // 
@@ -99,14 +98,15 @@
             this.closeModuleButton.UseVisualStyleBackColor = true;
             this.closeModuleButton.Click += new System.EventHandler(this.closeModuleButton_Click);
             // 
-            // showDraw2DButton
+            // showVector
             // 
-            this.showDraw2DButton.Location = new System.Drawing.Point(512, 101);
-            this.showDraw2DButton.Name = "showDraw2DButton";
-            this.showDraw2DButton.Size = new System.Drawing.Size(177, 34);
-            this.showDraw2DButton.TabIndex = 6;
-            this.showDraw2DButton.Text = "Show Draw  (only 2 dim)";
-            this.showDraw2DButton.UseVisualStyleBackColor = true;
+            this.showVector.Location = new System.Drawing.Point(512, 101);
+            this.showVector.Name = "showVector";
+            this.showVector.Size = new System.Drawing.Size(177, 34);
+            this.showVector.TabIndex = 6;
+            this.showVector.Text = "Show Vector";
+            this.showVector.UseVisualStyleBackColor = true;
+            this.showVector.Click += new System.EventHandler(this.showVector_Click);
             // 
             // zdefiniowaneRekordyLabel
             // 
@@ -135,6 +135,7 @@
             this.generateToEndButton.TabIndex = 9;
             this.generateToEndButton.Text = "Generate to end";
             this.generateToEndButton.UseVisualStyleBackColor = true;
+            this.generateToEndButton.Click += new System.EventHandler(this.generateToEndButton_Click);
             // 
             // chooseClassBox
             // 
@@ -174,12 +175,14 @@
             // 
             // classifyNewPointButton
             // 
+            this.classifyNewPointButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
             this.classifyNewPointButton.Location = new System.Drawing.Point(512, 324);
             this.classifyNewPointButton.Name = "classifyNewPointButton";
             this.classifyNewPointButton.Size = new System.Drawing.Size(177, 34);
             this.classifyNewPointButton.TabIndex = 14;
             this.classifyNewPointButton.Text = "Classify new Point";
             this.classifyNewPointButton.UseVisualStyleBackColor = true;
+            this.classifyNewPointButton.Click += new System.EventHandler(this.classifyNewPointButton_Click);
             // 
             // ModuleTwo
             // 
@@ -194,7 +197,7 @@
             this.Controls.Add(this.generateToEndButton);
             this.Controls.Add(this.generateOneStepButton);
             this.Controls.Add(this.zdefiniowaneRekordyLabel);
-            this.Controls.Add(this.showDraw2DButton);
+            this.Controls.Add(this.showVector);
             this.Controls.Add(this.closeModuleButton);
             this.Controls.Add(this.PominięteRekordyLabel);
             this.Controls.Add(this.ilośćRekordówLabel);
@@ -216,7 +219,7 @@
         private System.Windows.Forms.Label ilośćRekordówLabel;
         private System.Windows.Forms.Label PominięteRekordyLabel;
         private System.Windows.Forms.Button closeModuleButton;
-        private System.Windows.Forms.Button showDraw2DButton;
+        private System.Windows.Forms.Button showVector;
         private System.Windows.Forms.Label zdefiniowaneRekordyLabel;
         private System.Windows.Forms.Button generateOneStepButton;
         private System.Windows.Forms.Button generateToEndButton;

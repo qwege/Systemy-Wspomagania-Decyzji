@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HelixToolkit, Version=2.23.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
@@ -101,6 +103,13 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="newPoint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="newPoint.Designer.cs">
+      <DependentUpon>newPoint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Module2Class.cs" />
     <Compile Include="ModuleTwo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModuleTwo.resx">
       <DependentUpon>ModuleTwo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="newPoint.resx">
+      <DependentUpon>newPoint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
