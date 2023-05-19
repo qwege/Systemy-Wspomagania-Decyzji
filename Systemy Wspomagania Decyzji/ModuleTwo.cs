@@ -53,8 +53,14 @@ namespace Systemy_Wspomagania_Decyzji
             dlugośćWektoraLabel.Text = "Długość Wektora: " + module.vector.Count();
             PominięteRekordyLabel.Text = "Pominięte Rekordy: " + module.getSkippedRecords();
             zdefiniowaneRekordyLabel.Text = "Zdefiniowane Rekordy: " + module.getDefinedRecords();
-            if(module.algoritmFinished()) classifyNewPointButton.Enabled = true;
-            else classifyNewPointButton.Enabled = false;
+            if (module.algoritmFinished()) {
+                classifyNewPointButton.Enabled = true;
+                draw2D.Enabled = true;    
+            }
+            else {
+                classifyNewPointButton.Enabled = false;
+                draw2D.Enabled = false;
+            }
         }
 
         private void closeModuleButton_Click(object sender, EventArgs e)
@@ -102,6 +108,12 @@ namespace Systemy_Wspomagania_Decyzji
         {
             newPoint n = new newPoint(module.headers, module.vector,chooseClassBox.SelectedIndex);
             n.Visible = true;
+        }
+
+        private void draw2D_Click(object sender, EventArgs e)
+        {
+            if (module.getDim() == 2) module.Draw2d();
+            else System.Windows.Forms.MessageBox.Show("Dane nie są 2 wymiarowe");
         }
     }
     public class PartOfVector

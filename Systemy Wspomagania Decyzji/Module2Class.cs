@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
+using ZedGraph;
 
 namespace Systemy_Wspomagania_Decyzji
 {
@@ -274,17 +278,17 @@ namespace Systemy_Wspomagania_Decyzji
             return unassocietedRecords.Count()+associetedRecords.Count()+skippedRecords.Count();
         }
 
-        internal int getSkippedRecords()
+        public int getSkippedRecords()
         {
             return skippedRecords.Count();
         }
 
-        internal int getDefinedRecords()
+        public int getDefinedRecords()
         {
            return associetedRecords.Count();
         }
 
-        internal void showVector()
+        public void showVector()
         {
 
             string[] messageLines = new string[vector.Count()];
@@ -301,6 +305,64 @@ namespace Systemy_Wspomagania_Decyzji
             if(getRecords()!=0)
             return unassocietedRecords.Count() == 0;
             return false;
+        }
+
+        public void Draw2d()
+        {
+            if (getDim() != 2) return;
+            Form2 form2 = new Form2();
+            ZedGraphControl control = new ZedGraphControl();
+            control.SetBounds(0,0,500,500);
+            form2.Size = new System.Drawing.Size(600,600);
+            GraphPane graph = control.GraphPane;
+            form2.Controls.Add(control);
+
+            // Ustawienie tytułu osi x i y
+            graph.XAxis.Title.Text = "Oś X";
+            graph.YAxis.Title.Text = "Oś Y";
+
+           
+            
+
+            Color[] colors = new Color[] { Color.Red, Color.Black, Color.Green, Color.Blue, Color.Purple };
+            // Kolorowanie punktów według klasy
+            for (int i = 0; i < associetedRecords.Count; i++)
+            {
+                PointPairList p = new PointPairList();
+                p.Add(associetedRecords[i].values[0], associetedRecords[i].values[1]);
+                LineItem curve1 = graph.AddCurve("", p, colors[associetedRecords[i].classValue % 5]);
+
+                curve1.Line.IsVisible = false;
+
+            }
+
+            // Zaktualizowanie wykresu
+
+            control.RestoreScale(control.GraphPane);
+
+            // Dodanie prostych x=liczba i y=liczba jako krzywe
+            for (int i = 0; i < vector.Count(); i++)
+            {
+                if (vector[i].dim == 0)
+                {
+                    LineObj line = new LineObj(vector[i].value, graph.YAxis.Scale.Min, vector[i].value, graph.YAxis.Scale.Max);
+                    line.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                    line.Line.Color = System.Drawing.Color.Black;
+                    graph.GraphObjList.Add(line);
+                }
+                else {
+                    LineObj line = new LineObj( graph.XAxis.Scale.Min,vector[i].value, graph.XAxis.Scale.Max, vector[i].value);
+                    line.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                    line.Line.Color = System.Drawing.Color.Black;
+                    graph.GraphObjList.Add(line);
+                }
+                
+            }
+
+
+            control.AxisChange();
+            control.Invalidate();
+            form2.Show();
         }
     }
     public class Record()

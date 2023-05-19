@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.ilośćWymiarówLabel = new System.Windows.Forms.Label();
             this.dlugośćWektoraLabel = new System.Windows.Forms.Label();
             this.ilośćRekordówLabel = new System.Windows.Forms.Label();
@@ -43,14 +42,8 @@
             this.ilośćKlasLabel = new System.Windows.Forms.Label();
             this.resetVectorButton = new System.Windows.Forms.Button();
             this.classifyNewPointButton = new System.Windows.Forms.Button();
+            this.draw2D = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(104, 406);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(555, 18);
-            this.progressBar.TabIndex = 0;
             // 
             // ilośćWymiarówLabel
             // 
@@ -184,11 +177,23 @@
             this.classifyNewPointButton.UseVisualStyleBackColor = true;
             this.classifyNewPointButton.Click += new System.EventHandler(this.classifyNewPointButton_Click);
             // 
+            // draw2D
+            // 
+            this.draw2D.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.draw2D.Location = new System.Drawing.Point(512, 379);
+            this.draw2D.Name = "draw2D";
+            this.draw2D.Size = new System.Drawing.Size(177, 34);
+            this.draw2D.TabIndex = 15;
+            this.draw2D.Text = "Draw2D";
+            this.draw2D.UseVisualStyleBackColor = true;
+            this.draw2D.Click += new System.EventHandler(this.draw2D_Click);
+            // 
             // ModuleTwo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.draw2D);
             this.Controls.Add(this.classifyNewPointButton);
             this.Controls.Add(this.resetVectorButton);
             this.Controls.Add(this.ilośćKlasLabel);
@@ -203,7 +208,6 @@
             this.Controls.Add(this.ilośćRekordówLabel);
             this.Controls.Add(this.dlugośćWektoraLabel);
             this.Controls.Add(this.ilośćWymiarówLabel);
-            this.Controls.Add(this.progressBar);
             this.Name = "ModuleTwo";
             this.Text = "Moduł 2";
             this.ResumeLayout(false);
@@ -212,8 +216,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label ilośćWymiarówLabel;
         private System.Windows.Forms.Label dlugośćWektoraLabel;
         private System.Windows.Forms.Label ilośćRekordówLabel;
@@ -228,5 +230,6 @@
         private System.Windows.Forms.Label ilośćKlasLabel;
         private System.Windows.Forms.Button resetVectorButton;
         private System.Windows.Forms.Button classifyNewPointButton;
+        private System.Windows.Forms.Button draw2D;
     }
 }
