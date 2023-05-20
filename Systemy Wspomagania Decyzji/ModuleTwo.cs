@@ -47,20 +47,22 @@ namespace Systemy_Wspomagania_Decyzji
 
         private void updateLabels()
         {
+            if (module.algoritmFinished()) {
+                classifyNewPointButton.Enabled = true;
+                draw2D.Enabled = true;
+                
+            }
+            else {
+                classifyNewPointButton.Enabled = false;
+                draw2D.Enabled = false;
+            }
             ilośćWymiarówLabel.Text = "Ilość Wymiarów: " + module.getDim() ;
             ilośćRekordówLabel.Text = "Ilość Rekordów: " + module.getRecords();
             ilośćKlasLabel.Text = "Ilość Klas: " + module.uniqueclass;
             dlugośćWektoraLabel.Text = "Długość Wektora: " + module.vector.Count();
             PominięteRekordyLabel.Text = "Pominięte Rekordy: " + module.getSkippedRecords();
             zdefiniowaneRekordyLabel.Text = "Zdefiniowane Rekordy: " + module.getDefinedRecords();
-            if (module.algoritmFinished()) {
-                classifyNewPointButton.Enabled = true;
-                draw2D.Enabled = true;    
-            }
-            else {
-                classifyNewPointButton.Enabled = false;
-                draw2D.Enabled = false;
-            }
+           
         }
 
         private void closeModuleButton_Click(object sender, EventArgs e)

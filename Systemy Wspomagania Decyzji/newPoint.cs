@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace Systemy_Wspomagania_Decyzji
 {
@@ -57,6 +59,12 @@ namespace Systemy_Wspomagania_Decyzji
                     return;
                 }
             }
+            r.classValue = newPoint.GenateClassFromVector(r, vectors);
+            newPointAssigmentClassLabel.Text = "New point is class: " + r.classValue;
+
+        }
+        public static int GenateClassFromVector(Record r, List<Vector> vectors) {
+
             for (int i = 0; i < vectors.Count; i++)
             {
                 if (r.values[vectors[i].dim] > vectors[i].value && vectors[i].direction == direction.UP) r.valuesForVector.Add(1);
@@ -68,11 +76,11 @@ namespace Systemy_Wspomagania_Decyzji
             {
                 if (r.valuesForVector[i] == 1)
                 {
-                    r.classValue = vectors[i].classVector;
-                    break;
+                   return vectors[i].classVector;
+                    
                 }
             }
-            newPointAssigmentClassLabel.Text = "New point is class: " + r.classValue;
+            return -1;
 
         }
     }
